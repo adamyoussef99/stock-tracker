@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [ticker, setTicker] = useState("");
@@ -40,7 +41,9 @@ export default function Home() {
           ) : (
             watched.map((s) => (
               <li key={s} className="p-2 border-b">
-                {s}
+                <Link href={`/stocks/${s}`} className="text-blue-600 hover:underline">
+                  {s}
+                </Link>
               </li>
             ))
           )}

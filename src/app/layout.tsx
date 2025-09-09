@@ -20,6 +20,7 @@ export default function RootLayout({
             <h1 className="text-2xl font-bold">📈 Stock Tracker</h1>
             <nav className="space-x-4">
               <a href="/" className="hover:underline">Home</a>
+              <a href="/stocks" className="hover:underline">All Stocks</a>
               <a href="/stocks/AAPL" className="hover:underline">Example Stock</a>
             </nav>
           </div>
