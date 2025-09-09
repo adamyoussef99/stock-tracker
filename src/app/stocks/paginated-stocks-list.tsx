@@ -13,13 +13,24 @@ interface Props {
   loadAllStocks?: boolean;
 }
 
-const STOCKS_PER_PAGE = 21;
+const STOCKS_PER_PAGE =21;
 
 export default function PaginatedStocksList({ initialStocks, loadAllStocks = true }: Props) {
-  const [allStocks, setAllStocks] = useState<Stock[]>(initialStocks);
+  const [additionalStocks, setAdditionalStocks] = useState<Stock[]>([]);
   const [loading, setLoading] = useState(loadAllStocks);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Combine popular stocks (always first) with additional stocks
+  const allStocks = useMemo(() => {
+    // Remove any duplicates from additional stocks that might be in popular stocks
+    const popularSymbols = new Set(initialStocks.map(stock => stock.symbol));
+    const uniqueAdditionalStocks = additionalStocks.filter(
+      stock => !popularSymbols.has(stock.symbol)
+    );
+    
+    return [...initialStocks, ...uniqueAdditionalStocks];
+  }, [initialStocks, additionalStocks]);
 
   useEffect(() => {
     if (!loadAllStocks) return;
@@ -30,7 +41,7 @@ export default function PaginatedStocksList({ initialStocks, loadAllStocks = tru
         const response = await fetch('/api/stocks');
         if (response.ok) {
           const fullStocks = await response.json();
-          setAllStocks(fullStocks);
+          setAdditionalStocks(fullStocks);
         }
       } catch (error) {
         console.error('Failed to load full stock list:', error);
@@ -94,8 +105,8 @@ export default function PaginatedStocksList({ initialStocks, loadAllStocks = tru
       
       <p className="text-gray-700 mb-4">
         {loading 
-          ? `Showing ${allStocks.length} popular stocks while loading full list...` 
-          : `Search through ${allStocks.length} stocks:`
+          ? `Showing ${initialStocks.length} popular stocks while loading full list...` 
+          : `Search through ${allStocks.length} stocks (popular stocks always shown first):`
         }
       </p>
 
