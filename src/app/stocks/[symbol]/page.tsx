@@ -19,7 +19,13 @@ export default async function StockPage({ params }: StockPageProps) {
 
   try {
     // Fetch current quote
-    const quote = await yahooFinance.quote(symbol);
+    const quote = await (yahooFinance.quote as any)(symbol, {
+      fetchOptions: {
+        headers: {
+          "User-Agent": "Mozilla/5.0", // make Yahoo think it's a browser
+        },
+      },
+    });
 
     // Fetch 7-day historical data
     const end = new Date();
@@ -54,7 +60,7 @@ export default async function StockPage({ params }: StockPageProps) {
         </div>
 
         {/* Historical Data Table */}
-        <h2 className="text-xl font-semibold mb-2">Last 7 Days</h2>
+        <h2 className="text-xl font-semibold mb-2">Last 5 Days</h2>
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-200">

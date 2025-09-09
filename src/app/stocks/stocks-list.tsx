@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 type Stock = {
@@ -8,14 +8,25 @@ type Stock = {
   name: string;
 };
 
-export default function StocksList({ stocks }: { stocks: Stock[] }) {
+export default function StocksList({ 
+  stocks, 
+  initialMessage 
+}: { 
+  stocks: Stock[] 
+  initialMessage ?: string;
+}) {
   const [search, setSearch] = useState("");
 
-  const filteredStocks = stocks.filter(
-    (stock) =>
-      stock.symbol.toLowerCase().includes(search.toLowerCase()) ||
-      stock.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredStocks = useMemo(() => {
+    if (!search.trim()) return stocks;
+    
+    const searchLower = search.toLowerCase();
+    return stocks.filter(
+      (stock) =>
+        stock.symbol.toLowerCase().includes(searchLower) ||
+        stock.name.toLowerCase().includes(searchLower)
+    );
+  }, [stocks, search]);
 
   return (
     <div className="bg-white shadow rounded-lg p-6">

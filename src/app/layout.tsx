@@ -19,9 +19,8 @@ export default function RootLayout({
           <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold">📈 Stock Tracker</h1>
             <nav className="space-x-4">
-              <a href="/" className="hover:underline">Home</a>
-              <a href="/stocks" className="hover:underline">All Stock</a>
-              <a href="/stocks/AAPL" className="hover:underline">Example Stock</a>
+              <a href="/" className="headers">Stock Watch</a>
+              <a href="/stocks" className="headers">All Stocks</a>
             </nav>
           </div>
         </header>
