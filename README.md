@@ -8,7 +8,7 @@ Easily search, watch, and analyze stock performance with real-time updates and h
 ## Features
 - Search and validate stock tickers
 - Add/remove tickers to your personal watchlist (stored in localStorage)
-- View stock details and 7-day price history
+- View stock details and 5-day price history
 - Combined trend charts for watched stocks
 - Preloaded list of popular stocks on the homepage
 
